@@ -3,7 +3,7 @@ import React from 'react'
 export default function UpdateForm(props) {
     return (
         <form className="w-100 px-5">
-            <h1 className="mt-5">Item Details "{props.item.title}".</h1>
+            <h1 className="mt-5">Item Details "{props.item.Name}".</h1>
 
             <div className="mt-5">
                 <label className="h3 form-label">Item name</label>

@@ -4,16 +4,13 @@ import ItemCreateForm from "./components/ItemCreateForm";
 import ItemDetailsForm from "./components/ItemDetailsForm";
 
 export default function App() {
-  //const [items, setItem] = useState([]);
   const [showingCreateItem, setshowingCreateItem] = useState(false);
   const [ShowingItem, ShowItem] = useState(null);
 
   function getPosts() {
     axios.get('http://localhost:5148/api/cinemas')
-    .then(res => {
-      //const items = res.data;
-      renderRecords(res.data)
-      //setItem({ items });
+    .then(response => {
+      renderRecords(response.data)
     })
   }
 
@@ -26,38 +23,22 @@ export default function App() {
             <button onClick={() => setshowingCreateItem(true)} className="btn btn-dark btn-lg w-100">Add Item </button>
           </div>
           {(showingCreateItem === false && ShowingItem === null) && renderRecords()}
-          {showingCreateItem && <ItemCreateForm onItemCreated={onPostCreated} />}
-          {ShowingItem !== null && <ItemDetailsForm item={ShowingItem} onPostUpdated={onPostUpdated} />}
+          {showingCreateItem && <ItemCreateForm onItemCreated={onItemCreated} />}
+          {ShowingItem !== null && <ItemDetailsForm item={ShowingItem}/>}
         </div>
       </div>
     </div>
   );
-  function onPostCreated(createdPost) {
+  function onItemCreated(createdItem) {
     setshowingCreateItem(false);
 
-    if (createdPost === null) {
+    if (createdItem === null) {
       return;
     }
 
-    alert(`Item successfully created. After clicking OK, your new post tilted "${createdPost.title}" will show up in the table below.`);
+    alert(`Item successfully created. After clicking OK, your new item named "${createdItem.Name}" will show up in the table below.`);
 
     getPosts();
-  }
-  function onPostUpdated(updatedPost) {
-    ShowItem(null);
-
-    if (updatedPost === null) {
-      return;
-    }
-
-    //let postsCopy = [...this.state.persons];
-    const index = 0;
-    //const index = postsCopy.findIndex((postsCopyPost) => {
-     // if (postsCopyPost.postId === updatedPost.postId) {return true;}
-    //});
-    if (index !== -1) {
-    //  postsCopy[index] = updatedPost;
-    }
   }
 
   function renderRecords(items){

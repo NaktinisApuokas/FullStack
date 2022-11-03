@@ -28,7 +28,7 @@ export default function ItemCreateForm(props) {
             console.log(error);
         });
 
-        props.onPostCreated(postToCreate);
+        //props.onPostCreated(postToCreate);
     };
 
     return (
