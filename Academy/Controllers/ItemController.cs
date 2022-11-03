@@ -6,12 +6,14 @@ using AutoMapper;
 using Academy.Data.Dtos;
 using Academy.Data.Entities;
 using Academy.Data.Repositories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Models;
+//using System.Web.Http.Cors;
 
 namespace Academy.Controllers
 {
-    [EnableCors]
+    [EnableCors("CORSPolicy")]
     [ApiController]
     [Route("api/cinemas")]
     public class ItemController : ControllerBase
