@@ -3,36 +3,44 @@ using Microsoft.Extensions.Hosting;
 using System.Threading.Tasks;
 using Academy.Data;
 using Microsoft.Extensions.DependencyInjection;
+using Academy.Data.Repositories;
 
-namespace Academy
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
 {
-    public class Program
-    {
-        public static async Task Main(string[] args)
+    options.AddPolicy("CORSPolicy",
+        builder =>
         {
-            var host = WebApplication.CreateBuilder(args);
-            host.Services.AddCors(options =>
-            {
-                options.AddPolicy("CORSPolicy",
-                    builder =>
-                    {
-                        builder.AllowAnyMethod().AllowAnyHeader().WithOrigins("https://localhost:3000");
-                    });
-            });
+            builder
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithOrigins("http://localhost:3000");
+        });
+});
 
-            var app = host.Build();
-            app.UseCors("CORSPolicy");
+builder.Services.AddControllers();
+//builder.Services.AddEndpointsApiExplorer();
 
-            using var scope = app.Services.CreateScope();
+builder.Services.AddDbContext<AcademyContext>();
 
-            await app.RunAsync();
-        }
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddControllers();
+builder.Services.AddTransient<ICinemaRepository, ItemRepository>();
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+var app = builder.Build();
+
+app.UseHttpsRedirection();
+
+
+app.UseRouting();
+
+app.UseCors("CORSPolicy");
+
+app.UseAuthentication();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

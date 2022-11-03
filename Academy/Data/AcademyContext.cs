@@ -10,7 +10,7 @@ namespace Academy.Data
         {
             // !!! DON'T STORE THE REAL CONNECTION STRING THE IN PUBLIC REPO !!!
             // Use secret managers provided by your chosen cloud provider
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=RestDemo2");
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=FullStack");
         }
     }
 }

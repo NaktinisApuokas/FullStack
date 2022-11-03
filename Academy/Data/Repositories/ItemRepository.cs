@@ -9,7 +9,7 @@ namespace Academy.Data.Repositories
 {
     public interface ICinemaRepository
     {
-        Task<IEnumerable<Item>> GetAll();
+        Task<IEnumerable<Item>> Get();
         Task<Item> Get(int id);
         Task<Item> Create(Item cinema);
         Task<Item> Put(Item cinema);
@@ -24,7 +24,7 @@ namespace Academy.Data.Repositories
             _FobumCinemaContext = fobumCinemaContext;
         }
 
-        public async Task<IEnumerable<Item>> GetAll()
+        public async Task<IEnumerable<Item>> Get()
         {
             return await _FobumCinemaContext.Item.ToListAsync();
         }

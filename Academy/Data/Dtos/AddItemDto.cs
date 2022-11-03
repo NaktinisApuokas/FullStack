@@ -2,5 +2,5 @@
 
 namespace Academy.Data.Dtos
 {
-    public record CreateCinemaDto([Required] string Name, [Required] string Information);
+    public record AddItemDto([Required] string Name, [Required] string Information);
 }

@@ -7,9 +7,11 @@ using Academy.Data.Dtos;
 using Academy.Data.Entities;
 using Academy.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 
 namespace Academy.Controllers
 {
+    [EnableCors]
     [ApiController]
     [Route("api/cinemas")]
     public class ItemController : ControllerBase
@@ -24,10 +26,9 @@ namespace Academy.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ItemDto>>> GetAll()
+        public async Task<IEnumerable<ItemDto>> Get()
         {
-            var items = await _CinemaRepository.GetAll();
-            return Ok(_mapper.Map<ItemDto>(items));
+            return (await _CinemaRepository.Get()).Select(o => _mapper.Map<ItemDto>(o));
         }
 
         [HttpGet("{id}")]
@@ -40,14 +41,13 @@ namespace Academy.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ItemDto>> Post(CreateCinemaDto cinemaDto)
+        public async Task<ActionResult<ItemDto>> Post(AddItemDto cinemaDto)
         {
-            return Ok("random");
-            //var cinema = _mapper.Map<Item>(cinemaDto);
+            var cinema = _mapper.Map<Item>(cinemaDto);
 
-            //await _CinemaRepository.Create(cinema);
+            await _CinemaRepository.Create(cinema);
 
-            //return Created($"/api/cinemas/{cinema.Id}", _mapper.Map<ItemDto>(cinema));
+            return Created($"/api/cinemas/{cinema.Id}", _mapper.Map<ItemDto>(cinema));
         }
 
     }
