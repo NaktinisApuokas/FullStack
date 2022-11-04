@@ -9,47 +9,46 @@ using Academy.Data.Repositories;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
-//using System.Web.Http.Cors;
 
 namespace Academy.Controllers
 {
     [EnableCors("CORSPolicy")]
     [ApiController]
-    [Route("api/cinemas")]
+    [Route("api/listpage")]
     public class ItemController : ControllerBase
     {
-        private readonly ICinemaRepository _CinemaRepository;
+        private readonly IItemRepository _ItemRepository;
         private readonly IMapper _mapper;
 
-        public ItemController(ICinemaRepository CinemaRepository, IMapper mapper)
+        public ItemController(IItemRepository ItemRepository, IMapper mapper)
         {
-            _CinemaRepository = CinemaRepository;
+            _ItemRepository = ItemRepository;
             _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IEnumerable<ItemDto>> Get()
         {
-            return (await _CinemaRepository.Get()).Select(o => _mapper.Map<ItemDto>(o));
+            return (await _ItemRepository.Get()).Select(o => _mapper.Map<ItemDto>(o));
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ItemDto>> Get(int id)
         {
-            var cinema = await _CinemaRepository.Get(id);
-            if (cinema == null) return NotFound($"Cinema with id '{id}' not found.");
+            var item = await _ItemRepository.Get(id);
+            if (item == null) return NotFound($"Cinema with id '{id}' not found.");
 
-            return Ok(_mapper.Map<ItemDto>(cinema));
+            return Ok(_mapper.Map<ItemDto>(item));
         }
 
         [HttpPost]
-        public async Task<ActionResult<ItemDto>> Post(AddItemDto cinemaDto)
+        public async Task<ActionResult<ItemDto>> Post(AddItemDto itemDto)
         {
-            var cinema = _mapper.Map<Item>(cinemaDto);
+            var item = _mapper.Map<Item>(itemDto);
 
-            await _CinemaRepository.Create(cinema);
+            await _ItemRepository.Create(item);
 
-            return Created($"/api/cinemas/{cinema.Id}", _mapper.Map<ItemDto>(cinema));
+            return Created($"/api/listpage/{item.Id}", _mapper.Map<ItemDto>(item));
         }
 
     }

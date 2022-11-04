@@ -27,7 +27,7 @@ builder.Services.AddDbContext<AcademyContext>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
-builder.Services.AddTransient<ICinemaRepository, ItemRepository>();
+builder.Services.AddTransient<IItemRepository, ItemRepository>();
 
 var app = builder.Build();
 

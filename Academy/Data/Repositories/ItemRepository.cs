@@ -7,53 +7,39 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Academy.Data.Repositories
 {
-    public interface ICinemaRepository
+    public interface IItemRepository
     {
         Task<IEnumerable<Item>> Get();
         Task<Item> Get(int id);
-        Task<Item> Create(Item cinema);
-        Task<Item> Put(Item cinema);
-        Task Delete(Item cinema);
+        Task<Item> Create(Item item);
     }
-    public class ItemRepository : ICinemaRepository
+    public class ItemRepository : IItemRepository
     {
-        private readonly AcademyContext _FobumCinemaContext;
+        private readonly AcademyContext _AcademyContext;
 
-        public ItemRepository(AcademyContext fobumCinemaContext)
+        public ItemRepository(AcademyContext academyContext)
         {
-            _FobumCinemaContext = fobumCinemaContext;
+            _AcademyContext = academyContext;
         }
 
         public async Task<IEnumerable<Item>> Get()
         {
-            return await _FobumCinemaContext.Item.ToListAsync();
+            return await _AcademyContext.Item.ToListAsync();
         }
 
         public async Task<Item> Get(int id)
         {
-            return await _FobumCinemaContext.Item.FirstOrDefaultAsync(o => o.Id == id);
+            return await _AcademyContext.Item.FirstOrDefaultAsync(o => o.Id == id);
         }
 
-        public async Task<Item> Create(Item cinema)
+        public async Task<Item> Create(Item item)
         {
-            _FobumCinemaContext.Item.Add(cinema);
-            await _FobumCinemaContext.SaveChangesAsync();
+            _AcademyContext.Item.Add(item);
+            await _AcademyContext.SaveChangesAsync();
 
-            return cinema;
+            return item;
         }
 
-        public async Task<Item> Put(Item cinema)
-        {
-            _FobumCinemaContext.Item.Update(cinema);
-            await _FobumCinemaContext.SaveChangesAsync();
 
-            return cinema;
-        }
-
-        public async Task Delete(Item cinema)
-        {
-            _FobumCinemaContext.Item.Remove(cinema);
-            await _FobumCinemaContext.SaveChangesAsync();
-        }
     }
 }

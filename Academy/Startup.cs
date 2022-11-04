@@ -22,7 +22,7 @@ namespace Academy
             services.AddDbContext<AcademyContext>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
-            services.AddTransient<ICinemaRepository, ItemRepository>();
+            services.AddTransient<IItemRepository, ItemRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

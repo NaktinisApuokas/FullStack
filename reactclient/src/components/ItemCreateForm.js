@@ -16,19 +16,18 @@ export default function ItemCreateForm(props) {
         e.preventDefault();
 
         const postToCreate = {
-            Name: formData.Name,
-            information: formData.Information
+            name: formData.name,
+            information: formData.information
         };
-        axios.post('http://localhost:5148/api/cinemas',{postToCreate})
-        .then(res => {
-            console.log(res);
-            console.log(res.data);
+        axios.post('http://localhost:5148/api/listpage',{postToCreate})
+        .then(response => {
+            console.log(response);
+            console.log(response.data);
         })
         .catch(error => {
             console.log(error);
         });
 
-        //props.onPostCreated(postToCreate);
     };
 
     return (
@@ -37,12 +36,12 @@ export default function ItemCreateForm(props) {
 
             <div className="mt-5">
                 <label className="h3 form-label">Item name</label>
-                <input value={formData.Name} name="title" type="text" className="form-control" onChange={handleChange} />
+                <input value={formData.name} name="title" type="text" className="form-control" onChange={handleChange} />
             </div>
 
             <div className="mt-4">
                 <label className="h3 form-label">Item information</label>
-                <input value={formData.Information} name="content" type="text" className="form-control" onChange={handleChange} />
+                <input value={formData.information} name="content" type="text" className="form-control" onChange={handleChange} />
             </div>
 
             <button onClick={handleSubmit} className="btn btn-dark btn-lg w-100 mt-5">Submit</button>
